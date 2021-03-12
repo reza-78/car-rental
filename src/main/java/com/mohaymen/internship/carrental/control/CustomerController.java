@@ -1,5 +1,6 @@
 package com.mohaymen.internship.carrental.control;
 
+import com.mohaymen.internship.carrental.common.exception.EntityNotFoundException;
 import com.mohaymen.internship.carrental.model.Customer;
 import com.mohaymen.internship.carrental.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class CustomerController {
         Optional<Customer> loaded = service.get(id);
         if (loaded.isPresent())
             return new ResponseEntity<>(loaded.get(), HttpStatus.OK);
-        return new ResponseEntity<>("there is no customer with this id", HttpStatus.NOT_FOUND);
+        throw new EntityNotFoundException(Customer.class.getName(), id);
     }
 
     @PostMapping("/customer/reserve/{customerId}/{driverId}")
