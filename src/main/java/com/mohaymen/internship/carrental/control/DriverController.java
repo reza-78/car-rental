@@ -1,5 +1,6 @@
 package com.mohaymen.internship.carrental.control;
 
+import com.mohaymen.internship.carrental.common.exception.EntityNotFoundException;
 import com.mohaymen.internship.carrental.model.Driver;
 import com.mohaymen.internship.carrental.service.DriverService;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,6 @@ public class DriverController {
         Optional<Driver> loaded = service.get(id);
         if (loaded.isPresent())
             return new ResponseEntity<>(loaded.get(), HttpStatus.OK);
-        return new ResponseEntity<>("there is no driver with this id", HttpStatus.NOT_FOUND);
+        throw new EntityNotFoundException(Driver.class.getName(), id);
     }
 }
