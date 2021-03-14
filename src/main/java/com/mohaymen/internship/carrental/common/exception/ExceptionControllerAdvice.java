@@ -14,4 +14,10 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<String> entityNotFoundHandler(EntityNotFoundException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(NoDriverToAssignException.class)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<String> noDriverToAssignHandler(NoDriverToAssignException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.ACCEPTED);
+    }
 }
