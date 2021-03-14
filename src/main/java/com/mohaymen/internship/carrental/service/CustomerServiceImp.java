@@ -1,6 +1,7 @@
 package com.mohaymen.internship.carrental.service;
 
 import com.mohaymen.internship.carrental.common.exception.EntityNotFoundException;
+import com.mohaymen.internship.carrental.common.exception.NoDriverToAssignException;
 import com.mohaymen.internship.carrental.model.Customer;
 import com.mohaymen.internship.carrental.model.Driver;
 import lombok.AllArgsConstructor;
@@ -27,18 +28,25 @@ public class CustomerServiceImp implements CustomerService{
     }
 
     @Override
-    public int driverReserve(int customerId, int driverId) {
+    public int driverReserve(int customerId) {
         Customer customer = repo.findById(customerId).orElseThrow(() -> {
             log.warn("there is no customer with id {}", customerId);
             return new EntityNotFoundException(Customer.class.getName(), customerId);
         });
 
-        Driver driver = driverRepository.findById(driverId).orElseThrow(() -> {
-            log.warn("there is no driver with id {}", driverId);
-            return new EntityNotFoundException(Driver.class.getName(), driverId);
+        Driver driver = findFirstFreeDriver().orElseThrow(() -> {
+            log.warn("there is no driver to assign to customer with id {}", customerId);
+            return new NoDriverToAssignException(customerId);
         });
+        driver.setFree(false);
+        driverRepository.save(driver);
         customer.setDriver(driver);
         repo.save(customer);
         return driver.getCarNumber();
+    }
+
+    private Optional<Driver> findFirstFreeDriver() {
+        // Todo find more efficient way
+        return driverRepository.findAll().stream().filter(Driver::isFree).findFirst();
     }
 }
