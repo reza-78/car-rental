@@ -28,9 +28,9 @@ public class CustomerController {
         throw new EntityNotFoundException(Customer.class.getName(), id);
     }
 
-    @PostMapping("/customer/reserve/{customerId}/{driverId}")
-    public ResponseEntity<Integer> driverReserve(@PathVariable int customerId, @PathVariable int driverId) {
-        return new ResponseEntity<>(service.driverReserve(customerId, driverId), HttpStatus.OK);
+    @PostMapping("/customer/reserve/{customerId}")
+    public ResponseEntity<Integer> driverReserve(@PathVariable int customerId) {
+        return new ResponseEntity<>(service.driverReserve(customerId), HttpStatus.OK);
     }
 
 }
