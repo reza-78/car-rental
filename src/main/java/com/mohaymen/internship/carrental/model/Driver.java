@@ -26,5 +26,7 @@ public class Driver {
     private String lastName;
     @Setter
     private int carNumber;
+    @Setter
+    private boolean isFree = true;
 
 }
