@@ -1,18 +1,22 @@
 package com.mohaymen.internship.carrental.model;
 
+import com.mohaymen.internship.carrental.model.response.CustomerResponseModel;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
 @ToString
 @Getter
-@Entity
 @NoArgsConstructor
+@SuperBuilder
+@Entity
 public class Customer {
     @Id
     @GeneratedValue
     private int id;
 
+    @ToString.Exclude
     @Setter
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn
@@ -20,4 +24,8 @@ public class Customer {
 
     private String name;
     private String lastName;
+
+    public CustomerResponseModel responseModel() {
+        return new CustomerResponseModel(name, lastName, id, driver.getId());
+    }
 }
