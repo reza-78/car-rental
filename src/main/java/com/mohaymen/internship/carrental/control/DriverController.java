@@ -17,14 +17,14 @@ public class DriverController {
 
     @PostMapping("/driver")
     public ResponseEntity<Integer> createDriver(@RequestBody Driver newDriver) {
-        return new ResponseEntity<>(service.create(newDriver), HttpStatus.OK);
+        return new ResponseEntity<>(service.create(newDriver), HttpStatus.CREATED);
     }
 
     @GetMapping("/driver/{id}")
-    public ResponseEntity<?> getDriver(@PathVariable int id) throws Exception {
+    public ResponseEntity<?> getDriver(@PathVariable int id) {
         Optional<Driver> loaded = service.get(id);
         if (loaded.isPresent())
-            return new ResponseEntity<>(loaded.get(), HttpStatus.OK);
+            return new ResponseEntity<>(loaded.get().responseModel(), HttpStatus.OK);
         throw new EntityNotFoundException(Driver.class.getName(), id);
     }
 }

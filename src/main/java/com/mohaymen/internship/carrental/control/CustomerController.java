@@ -17,14 +17,14 @@ public class CustomerController {
 
     @PostMapping("/customer")
     public ResponseEntity<Integer> createCustomer(@RequestBody Customer newCustomer) {
-        return new ResponseEntity<>(service.create(newCustomer), HttpStatus.OK);
+        return new ResponseEntity<>(service.create(newCustomer), HttpStatus.CREATED);
     }
 
     @GetMapping("/customer/{id}")
     public ResponseEntity<?> getCustomer(@PathVariable int id) {
         Optional<Customer> loaded = service.get(id);
         if (loaded.isPresent())
-            return new ResponseEntity<>(loaded.get(), HttpStatus.OK);
+            return new ResponseEntity<>(loaded.get().responseModel(), HttpStatus.OK);
         throw new EntityNotFoundException(Customer.class.getName(), id);
     }
 
