@@ -1,25 +1,26 @@
 package com.mohaymen.internship.carrental.model;
 
+import com.mohaymen.internship.carrental.model.response.DriverResponseModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @ToString
 @Getter
 @NoArgsConstructor
+@SuperBuilder
 @Entity
 public class Driver {
     @Id
     @GeneratedValue
     private int id;
 
-    @OneToOne(mappedBy = "driver")
+    @ToString.Exclude
+    @OneToOne(mappedBy = "driver", fetch = FetchType.LAZY)
     private Customer customer;
 
     private String name;
@@ -29,4 +30,7 @@ public class Driver {
     @Setter
     private boolean isFree = true;
 
+    public DriverResponseModel responseModel() {
+        return new DriverResponseModel(name, lastName, id, customer.getId(), carNumber, isFree);
+    }
 }
