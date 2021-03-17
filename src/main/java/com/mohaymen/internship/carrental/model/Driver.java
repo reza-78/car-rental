@@ -12,7 +12,7 @@ import javax.persistence.*;
 @ToString
 @Getter
 @NoArgsConstructor
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @Entity
 public class Driver {
     @Id
